@@ -1,6 +1,7 @@
 package com.ktm.service;
 
 
+import com.ktm.dto.PaginationDTO;
 import com.ktm.dto.QuestionDTO;
 import com.ktm.mapper.QuestionMapper;
 import com.ktm.mapper.UserMapper;
@@ -22,16 +23,36 @@ public class QuestionService {
     @Resource
     private UserMapper userMapper;
 
-    public List<QuestionDTO> list() {
-        List<Question> questionList = questionMapper.list();
+    public PaginationDTO list(Integer page, Integer size) {
+
+        PaginationDTO paginationDTO = new PaginationDTO();
+
+        Integer totalCount = questionMapper.count();
+        paginationDTO.setPagination(totalCount, page, size);
+        if (page < 1) {
+            page = 1;
+        }
+
+        if (page > paginationDTO.getTotalPage()) {
+            page = paginationDTO.getTotalPage();
+        }
+
+        //size*(page-1)
+        Integer offset = size * (page - 1);
+
+        List<Question> questionList = questionMapper.list(offset, size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+
         for (Question question : questionList) {
-           User user= userMapper.findById(question.getCreator());
+            User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             questionDTO.setUser(user);
             BeanUtils.copyProperties(question, questionDTO);
             questionDTOList.add(questionDTO);
         }
-            return questionDTOList;
+        paginationDTO.setQuestions(questionDTOList);
+
+        return paginationDTO;
     }
 }
