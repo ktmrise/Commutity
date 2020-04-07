@@ -33,3 +33,8 @@ create table USER
         primary key (ID)
 );
 ```
+
+
+```$xslt
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
