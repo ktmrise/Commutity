@@ -18,10 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CustomizeErrorController implements ErrorController {
     @Override
     public String getErrorPath() {
-
         return "error";
     }
-
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView errorHtml(HttpServletRequest request, Model model) {
