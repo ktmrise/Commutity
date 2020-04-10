@@ -36,5 +36,20 @@ body{
     margin-left: 600px;
 }
 
+.media-body{
+    padding-top: 13px;
+}
+
+.comment{
+    margin-top: 15px;
+}
+
+.comment-btn{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: right;
+}
+
+
 
 
