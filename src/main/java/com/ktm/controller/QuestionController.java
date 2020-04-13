@@ -1,8 +1,8 @@
 package com.ktm.controller;
 
-import com.ktm.dto.CommentCreateDTO;
 import com.ktm.dto.CommentDTO;
 import com.ktm.dto.QuestionDTO;
+import com.ktm.enums.CommentTypeEnum;
 import com.ktm.service.CommentService;
 import com.ktm.service.QuestionService;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ public class QuestionController {
     public String question(@PathVariable("id") Long id, Model model) {
 
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> comments=commentService.listByQuestionId(id);
+        List<CommentDTO> comments=commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
         //累加阅读数
         questionService.incView(id);

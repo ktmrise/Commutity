@@ -12,6 +12,10 @@ body{
     margin-bottom: 15px;
 }
 
+.sub-comments .btn{
+    margin: 10px;
+}
+
 .media-object {
     width: 42px;
     height: 42px;
@@ -83,3 +87,14 @@ body{
 
 
 
+.menu .active{
+    color: #499ef3;
+}
+
+.sub-comments {
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}

@@ -6,10 +6,10 @@ import lombok.Data;
 import org.springframework.web.servlet.ModelAndView;
 
 @Data
-public class ResultDTO {
+public class ResultDTO<T>{
     private Integer code;
     private String message;
-
+    private T data;
 
     public static ResultDTO errorOf(Integer code, String message) {
         ResultDTO resultDTO = new ResultDTO();
@@ -28,9 +28,18 @@ public class ResultDTO {
         return errorOf(e.getCode(), e.getMessage());
     }
 
+    public static<T> ResultDTO okOf(T t) {
+
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setMessage("请求成功");
+        resultDTO.setCode(200);
+        resultDTO.setData(t);
+        return resultDTO;
+    }
+
     public static ResultDTO okOf() {
 
-        ResultDTO resultDTO=new ResultDTO();
+        ResultDTO resultDTO = new ResultDTO();
         resultDTO.setMessage("请求成功");
         resultDTO.setCode(200);
         return resultDTO;
