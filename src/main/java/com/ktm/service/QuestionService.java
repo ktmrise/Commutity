@@ -11,13 +11,16 @@ import com.ktm.mapper.UserMapper;
 import com.ktm.model.Question;
 import com.ktm.model.QuestionExample;
 import com.ktm.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -58,6 +61,7 @@ public class QuestionService {
         Integer offset = size * (page - 1);
 
         QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
         RowBounds rowBounds = new RowBounds(offset,size);
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, rowBounds);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -166,5 +170,25 @@ public class QuestionService {
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incView(question);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO questionDTO) {
+        if (StringUtils.isBlank(questionDTO.getTag())) {
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(questionDTO.getTag(), ' ');
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(questionDTO.getId());
+        question.setTag(regexpTag);
+
+
+        List<Question> RelatedQuestions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = RelatedQuestions.stream().map(q -> {
+            QuestionDTO dto = new QuestionDTO();
+            BeanUtils.copyProperties(q,dto);
+            return dto;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }
