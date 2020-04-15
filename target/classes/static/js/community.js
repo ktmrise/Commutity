@@ -38,8 +38,6 @@ function comment2target(targetId, type, content) {
         },
         dataType: "json"
     });
-
-
 }
 
 function comment(e) {
@@ -111,13 +109,13 @@ function collapseComments(e) {
                 //标记二级评论展开状态
                 e.setAttribute("data-collapse", "in");
                 e.classList.add("active");
-
-
             });
         }
-
-
     }
+}
+
+
+function selectTag(value) {
 
 }
 
