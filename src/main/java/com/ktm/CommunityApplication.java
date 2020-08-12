@@ -10,6 +10,7 @@ public class CommunityApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CommunityApplication.class, args);
+        System.out.println("http://localhost:80/index");
     }
 
 }
